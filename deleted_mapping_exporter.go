@@ -31,8 +31,8 @@ import (
 
 var (
 	deletedMappingsUpDesc = prometheus.NewDesc(
-		prometheus.BuildFQName("old_lib_exporter", "", "up"),
-		"Whether scraping old lib's metrics was successful.",
+		prometheus.BuildFQName("deleted_mappings_exporter", "", "up"),
+		"Whether scraping the metrics was successful.",
 		nil,
 		nil)
 )
@@ -79,11 +79,11 @@ func CollectDeletedMappings(procPath string, ch chan<- prometheus.Metric) error 
 
 	deletedMappings := prometheus.NewGaugeVec(
 		prometheus.GaugeOpts{
-			Namespace: "old_lib_exporter",
-			Name:      "oldlibs",
-			Help:      "Number of processes using this old library.",
+			Namespace: "deleted_mappings_exporter",
+			Name:      "mapping",
+			Help:      "Number of processes using this mapping.",
 		},
-		[]string{"libraryname"},
+		[]string{"mapping_name"},
 	)
 
 	for key, value := range collection {
@@ -141,9 +141,9 @@ func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(`
 			<html>
-			<head><title>Old Lib Exporter</title></head>
+			<head><title>Deleted Mappings Exporter</title></head>
 			<body>
-			<h1>Old Lib Exporter</h1>
+			<h1>Deleted Mappings Exporter</h1>
 			<p><a href='` + *metricsPath + `'>Metrics</a></p>
 			</body>
 			</html>`))
